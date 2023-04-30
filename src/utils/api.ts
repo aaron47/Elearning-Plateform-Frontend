@@ -23,7 +23,7 @@ export const getUserById = (id: string) =>
 
 // Formation API
 export const getFormations = () =>
-	axiosClient.get<Formation[]>('/api/formations', config);
+	axiosClient.get('/api/formations', config);
 export const postCreateFormation = (dto: CreateFormationDto) =>
 	axiosClient.post('/api/formation/create', dto, config);
 export const getUserFormations = (id: string) =>
