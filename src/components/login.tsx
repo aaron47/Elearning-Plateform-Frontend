@@ -16,8 +16,9 @@ const Login = () => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		await postLoginUser({ email, password })
-			.then((res: any) => {
-				dispatch(setCurrentUser(res.user));
+			.then((res) => {
+				const user = { email: res.data.email, type: res.data.type, id: res.data.id };
+				dispatch(setCurrentUser({ email: user.email, type: user.type, id: user.id, }));
 				navigate('/');
 			})
 			.catch((_err) => {

@@ -1,16 +1,14 @@
-import Login from './components/login';
-import Register from './components/register';
-import CreateFormation from './components/createFormation';
+import { useAppSelector } from './app/hooks';
 import FormationList from './components/FormationList';
 import { Link } from 'react-router-dom';
 
 function App() {
+	const user = useAppSelector((state) => state.user);
+
 	return (
 		<>
+			{user.email ? <Navbar /> : <VisitorNavbar />}
 			<FormationList />
-			<Login />
-			<Register />
-			<CreateFormation />
 		</>
 	);
 }
@@ -45,6 +43,8 @@ export const VisitorNavbar = () => {
 };
 
 export const Navbar = () => {
+	const user = useAppSelector((state) => state.user);
+
 	return (
 		<nav className='bg-gray-900'>
 			<div className='mx-auto px-4 py-3'>
@@ -55,8 +55,15 @@ export const Navbar = () => {
 						</span>
 					</div>
 
-					<div className='flex items-end'>
-						<p className='text-white'>aaronborgi1@gmail.com</p>
+					<div className='flex space-x-4 items-end'>
+						<p className='text-white'>{user.id} </p>
+						{user.type === 'TEACHER' && (
+							<Link to='/create-formation'>
+								<button className='text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'>
+									Creer une formation
+								</button>
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

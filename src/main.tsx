@@ -7,16 +7,12 @@ import Register from './components/register';
 import Login from './components/login';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import CreateFormation from './components/CreateFormation';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: (
-			<>
-				<VisitorNavbar />
-				<App />
-			</>
-		),
+		element: <App />,
 	},
 	{
 		path: '/register',
@@ -35,6 +31,10 @@ const router = createBrowserRouter([
 				<Login />
 			</>
 		),
+	},
+	{
+		path: '/create-formation',
+		element: <CreateFormation />,
 	},
 ]);
 

@@ -8,6 +8,7 @@ import { toastOptions } from '../utils/ToastOptions';
 const Register = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [userType, setUserType] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Register = () => {
 			return;
 		}
 
-		await postRegisterUser({ email, password })
+		await postRegisterUser({ email, password, type: userType })
 			.then((_) => navigate('/login'))
 			.catch((err) => toast.error(err.message, toastOptions));
 	};
@@ -80,7 +81,12 @@ const Register = () => {
 								onChange={(event) => setConfirmPassword(event.target.value)}
 							/>
 						</div>
-						<select data-te-select-init>
+						<select
+							onChange={(e) => {
+								setUserType(e.target.value);
+							}}
+						>
+							<option defaultValue="USER">Selectionner le type d'utilisateur</option>
 							<option value='USER'>User</option>
 							<option value='TEACHER'>Teacher</option>
 						</select>
