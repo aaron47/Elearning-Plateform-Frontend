@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { CreateFormationDto } from '../utils/types';
 import { postCreateFormation } from '../utils/api';
 import { useAppSelector } from '../app/hooks';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toastOptions } from '../utils/ToastOptions';
 
 const CreateFormation = () => {
 	const [name, setName] = useState('');
@@ -24,8 +27,8 @@ const CreateFormation = () => {
 		};
 
 		await postCreateFormation(dto)
-			.then((_) => console.log('Formation created'))
-			.catch((err) => console.log('ERROR: ', err));
+			.then((res) => toast.success(res.data.message, toastOptions))
+			.catch((err) => toast.error(err.data.message, toastOptions));
 	};
 
 	return (
@@ -131,6 +134,7 @@ const CreateFormation = () => {
 					</form>
 				</div>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };

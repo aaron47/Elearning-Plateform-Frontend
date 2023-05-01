@@ -5,4 +5,4 @@ export type CreateFormationDto = {
 	price: number;
 	duration: number;
 	image: string;
-}
+};

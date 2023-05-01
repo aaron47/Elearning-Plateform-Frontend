@@ -1,3 +1,5 @@
-import { CreateFormationDto } from "./CreateFormationDto";
+import { CreateFormationDto } from './CreateFormationDto';
 
-export type Formation = CreateFormationDto;
+export type Formation = CreateFormationDto & {
+	id: number;
+};

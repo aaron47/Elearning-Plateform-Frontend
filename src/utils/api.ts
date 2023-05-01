@@ -1,6 +1,12 @@
 import { AxiosRequestConfig } from './../../node_modules/axios/index.d';
 import axios from 'axios';
-import { AuthDto, User, Formation, CreateFormationDto, RegisterDto } from './types';
+import {
+	AuthDto,
+	User,
+	Formation,
+	CreateFormationDto,
+	RegisterDto,
+} from './types';
 import { CreateCertificateDto } from './types/Certificate';
 
 const BASE_URL = 'http://localhost:8000/';
@@ -13,6 +19,11 @@ const config: AxiosRequestConfig = {
 	withCredentials: true,
 };
 
+export type FormationParticipateParams = {
+	user_id: number;
+	formation_id: number;
+};
+
 // User API
 export const postRegisterUser = (dto: RegisterDto) =>
 	axiosClient.post('/api/register', dto, config);
@@ -22,12 +33,14 @@ export const getUserById = (id: string) =>
 	axiosClient.get<User>(`/api/user/${id}`, config);
 
 // Formation API
-export const getFormations = () =>
-	axiosClient.get('/api/formations', config);
+export const getFormations = () => axiosClient.get('/api/formations', config);
 export const postCreateFormation = (dto: CreateFormationDto) =>
 	axiosClient.post('/api/formation/create', dto, config);
 export const getUserFormations = (id: string) =>
 	axiosClient.get<Formation[]>(`/api/formations/${id}`, config);
+export const participateUserInFormation = (
+	params: FormationParticipateParams,
+) => axiosClient.post('/api/formation/participate', params, config);
 
 // Certificates API
 export const createCertificate = (dto: CreateCertificateDto) =>
