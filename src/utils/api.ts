@@ -41,6 +41,10 @@ export const getUserFormations = (id: string) =>
 export const participateUserInFormation = (
 	params: FormationParticipateParams,
 ) => axiosClient.post('/api/formation/participate', params, config);
+export const getFormationParticipants = (formationId: string) =>
+	axiosClient.get(`/api/formation/${formationId}/participants`, config);
+export const deleteParticipant = (participantId: string) =>
+	axiosClient.post(`/api/formation/participants/${participantId}`, config);
 
 // Certificates API
 export const createCertificate = (dto: CreateCertificateDto) =>

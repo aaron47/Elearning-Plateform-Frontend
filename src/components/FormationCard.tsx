@@ -1,26 +1,33 @@
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import { toastOptions } from '../utils/ToastOptions';
 import { participateUserInFormation } from '../utils/api';
-import { Formation } from '../utils/types';
+import { Formation, User } from '../utils/types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 type FormationCardProps = {
 	formation: Formation;
+	formationUser: User;
 };
 
-const FormationCard: React.FC<FormationCardProps> = ({ formation }) => {
+const FormationCard: React.FC<FormationCardProps> = ({
+	formation,
+	formationUser,
+}) => {
 	const user = useAppSelector((state) => state.user);
 
 	const handleParticipate = async () => {
 		await participateUserInFormation({
 			user_id: user.id,
 			formation_id: formation.id,
-		}).then(res => {
-			toast.success(res.data.message, toastOptions);
-		}).catch(err => {
-			toast.error(err.data.message, toastOptions);
-		});
+		})
+			.then((res) => {
+				toast.success(res.data.message, toastOptions);
+			})
+			.catch((err) => {
+				toast.error(err.data.message, toastOptions);
+			});
 	};
 
 	return (
@@ -44,13 +51,24 @@ const FormationCard: React.FC<FormationCardProps> = ({ formation }) => {
 							{formation.price} <span className='text-sm italic'>TND</span>
 						</p>
 
-						<button
-							type='button'
-							className='mt-1 text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
-							onClick={handleParticipate}
-						>
-							Participer
-						</button>
+						{user.type === 'USER' && (
+							<button
+								type='button'
+								className='mt-1 text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
+								onClick={handleParticipate}
+							>
+								Participer
+							</button>
+						)}
+
+						{(+formationUser.id === user.id && (user.type === "TEACHER")) && (
+							<Link
+								className='mt-1 text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
+								to={`/formation/${formation.id}/participants`}
+							>
+								Voir Participants
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

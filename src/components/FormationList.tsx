@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import FormationCard from './FormationCard';
-import { Formation } from '../utils/types';
+import { Formation, User } from '../utils/types';
 import { getFormations } from '../utils/api';
+import { useAppSelector } from '../app/hooks';
 
 const FormationList = () => {
 	const [formations, setFormations] = useState<Formation[]>([]);
+	const user = useAppSelector((state) => state.user);
 
 	const fetchFormations = async () => {
 		await getFormations().then((res) => setFormations(res.data.formations));
@@ -20,7 +22,11 @@ const FormationList = () => {
 
 			<div className='flex flex-col items-center justify-center'>
 				{formations.map((formation) => (
-					<FormationCard key={formation.user_id} formation={formation} />
+					<FormationCard
+						key={formation.user_id}
+						formation={formation}
+						formationUser={user as unknown as User}
+					/>
 				))}
 			</div>
 		</div>
